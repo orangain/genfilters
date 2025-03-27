@@ -23,6 +23,41 @@ interface FilterConfig {
 const DEFAULT_CONFIG_FILE = "genfilters.yaml";
 
 /**
+ * Main function
+ */
+async function main() {
+  try {
+    // Get config file path from command line args or use default
+    const configPath =
+      Deno.args.length > 0 ? Deno.args[0] : DEFAULT_CONFIG_FILE;
+
+    console.log(`Using config file: ${configPath}`);
+
+    // Read and parse the YAML config file
+    const yamlContent = await Deno.readTextFile(configPath);
+    const configs = parseYaml(yamlContent) as FilterConfig[];
+
+    if (!Array.isArray(configs)) {
+      throw new Error(
+        "Invalid configuration format. Expected an array of configurations."
+      );
+    }
+
+    console.log(`Found ${configs.length} configurations to process`);
+
+    // Process each configuration
+    for (const config of configs) {
+      await processConfig(config);
+    }
+
+    console.log("All configurations processed successfully");
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    Deno.exit(1);
+  }
+}
+
+/**
  * Processes a single configuration entry
  */
 async function processConfig(config: FilterConfig): Promise<void> {
@@ -78,41 +113,6 @@ async function processConfig(config: FilterConfig): Promise<void> {
     console.log(
       `No matching directories found for pattern: ${config.directory}`
     );
-  }
-}
-
-/**
- * Main function
- */
-async function main() {
-  try {
-    // Get config file path from command line args or use default
-    const configPath =
-      Deno.args.length > 0 ? Deno.args[0] : DEFAULT_CONFIG_FILE;
-
-    console.log(`Using config file: ${configPath}`);
-
-    // Read and parse the YAML config file
-    const yamlContent = await Deno.readTextFile(configPath);
-    const configs = parseYaml(yamlContent) as FilterConfig[];
-
-    if (!Array.isArray(configs)) {
-      throw new Error(
-        "Invalid configuration format. Expected an array of configurations."
-      );
-    }
-
-    console.log(`Found ${configs.length} configurations to process`);
-
-    // Process each configuration
-    for (const config of configs) {
-      await processConfig(config);
-    }
-
-    console.log("All configurations processed successfully");
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-    Deno.exit(1);
   }
 }
 
