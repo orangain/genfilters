@@ -68,7 +68,10 @@ async function main() {
 
     console.log("All configurations processed successfully");
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    const message = error instanceof Error
+      ? error.message
+      : "An error occurred";
+    console.error(`Error: ${message}`);
     Deno.exit(1);
   }
 }
