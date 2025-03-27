@@ -12,7 +12,7 @@ import {
 } from "./deps.ts";
 
 // Configuration interface
-interface FilterConfig {
+export interface FilterConfig {
   output: string;
   directory: string;
   "match-if-exists"?: string;
@@ -35,12 +35,25 @@ async function main() {
 
     // Read and parse the YAML config file
     const yamlContent = await Deno.readTextFile(configPath);
-    const configs = parseYaml(yamlContent) as FilterConfig[];
+    const parsedConfigs = parseYaml(yamlContent);
 
-    if (!Array.isArray(configs)) {
+    if (!Array.isArray(parsedConfigs)) {
       throw new Error(
         "Invalid configuration format. Expected an array of configurations."
       );
+    }
+
+    // Validate each configuration
+    const configs: FilterConfig[] = [];
+    for (const config of parsedConfigs) {
+      if (!validateConfig(config)) {
+        throw new Error(
+          `Invalid configuration: ${JSON.stringify(
+            config
+          )}. Each configuration must have 'output', 'directory', and 'template' properties.`
+        );
+      }
+      configs.push(config);
     }
 
     console.log(`Found ${configs.length} configurations to process`);
@@ -55,6 +68,22 @@ async function main() {
     console.error(`Error: ${error.message}`);
     Deno.exit(1);
   }
+}
+
+/**
+ * Validates a configuration object
+ */
+export function validateConfig(config: unknown): config is FilterConfig {
+  return (
+    typeof config === "object" &&
+    config !== null &&
+    "output" in config &&
+    typeof config.output === "string" &&
+    "directory" in config &&
+    typeof config.directory === "string" &&
+    "template" in config &&
+    typeof config.template === "string"
+  );
 }
 
 /**
@@ -121,10 +150,20 @@ function processDirectory(
   const dirName = basename(dirPath);
 
   // Apply template
-  let result = config.template;
-  result = result.replace(/\{dir\}/g, dirRelativePath);
-  result = result.replace(/\{dirname\}/g, dirName);
+  return applyTemplate(config.template, dirRelativePath, dirName);
+}
 
+/**
+ * Apply template substitution for a directory
+ */
+export function applyTemplate(
+  template: string,
+  dirPath: string,
+  dirName: string
+): string {
+  let result = template;
+  result = result.replace(/\{dir\}/g, dirPath);
+  result = result.replace(/\{dirname\}/g, dirName);
   return result;
 }
 

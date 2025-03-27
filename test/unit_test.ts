@@ -2,14 +2,7 @@ import { assertEquals } from "https://deno.land/std@0.208.0/assert/mod.ts";
 import { ensureDirSync } from "https://deno.land/std@0.208.0/fs/ensure_dir.ts";
 import { existsSync } from "https://deno.land/std@0.208.0/fs/exists.ts";
 import { join } from "../deps.ts";
-
-// Mock FilterConfig interface
-interface FilterConfig {
-  output: string;
-  directory: string;
-  "match-if-exists"?: string;
-  template: string;
-}
+import { FilterConfig, validateConfig, applyTemplate } from "../mod.ts";
 
 // Test template substitution
 Deno.test({
@@ -21,9 +14,8 @@ Deno.test({
 
     const expected = "services/api:\n  - services/api/**\n  - api/workflow.yml";
 
-    let result = template;
-    result = result.replace(/\{dir\}/g, dir);
-    result = result.replace(/\{dirname\}/g, dirname);
+    // Test the applyTemplate function from mod.ts
+    const result = applyTemplate(template, dir, dirname);
 
     assertEquals(result, expected);
   },
@@ -92,17 +84,7 @@ Deno.test({
       directory: "**",
     };
 
-    // Function to validate config
-    function validateConfig(config: any): config is FilterConfig {
-      return (
-        typeof config === "object" &&
-        config !== null &&
-        typeof config.output === "string" &&
-        typeof config.directory === "string" &&
-        typeof config.template === "string"
-      );
-    }
-
+    // Test the validateConfig function from mod.ts
     assertEquals(validateConfig(validConfig), true);
     assertEquals(validateConfig(invalidConfig1), false);
     assertEquals(validateConfig(invalidConfig2), false);
