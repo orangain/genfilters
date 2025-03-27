@@ -1,6 +1,7 @@
 # GenFilters
 
-GenFilters is a Deno command-line tool that generates YAML files based on directory patterns and templates.
+GenFilters is a Deno command-line tool that generates YAML files based on
+directory patterns and templates.
 
 [![Built with Deno](https://img.shields.io/badge/built%20with-deno-brightgreen.svg)](https://deno.land/)
 [![CI](https://github.com/username/genfilters/actions/workflows/ci.yml/badge.svg)](https://github.com/username/genfilters/actions/workflows/ci.yml)
@@ -51,7 +52,8 @@ chmod +x mod.ts
 
 ## Usage
 
-Create a configuration file (default: `genfilters.yaml`) with your filter definitions, then run:
+Create a configuration file (default: `genfilters.yaml`) with your filter
+definitions, then run:
 
 ```bash
 # Using default config file (genfilters.yaml)
@@ -63,7 +65,8 @@ deno run --allow-read --allow-write mod.ts custom-config.yaml
 
 ## Configuration Format
 
-The configuration file should contain an array of filter definitions in YAML format:
+The configuration file should contain an array of filter definitions in YAML
+format:
 
 ```yaml
 - output: path/to/output.yaml
@@ -91,7 +94,8 @@ The configuration file should contain an array of filter definitions in YAML for
 ### Template Variables
 
 - `{dir}`: Relative path to the matched directory
-- `{dirname}`: Base name of the matched directory (just the directory name itself)
+- `{dirname}`: Base name of the matched directory (just the directory name
+  itself)
 
 ## Example
 
@@ -130,6 +134,7 @@ project/
 The command will generate:
 
 1. `.github/filters/test_kotlin.yaml`:
+
 ```yaml
 project:
   - project/**
@@ -143,6 +148,7 @@ tools:
 ```
 
 2. `.github/filters/deploy.yaml`:
+
 ```yaml
 api:
   - services/api/**
@@ -176,11 +182,13 @@ deno test --allow-read --allow-write --allow-run test/mod_test.ts
 
 ### Continuous Integration
 
-This project uses GitHub Actions for continuous integration. Two workflows are provided:
+This project uses GitHub Actions for continuous integration. Two workflows are
+provided:
 
 #### CI Workflow (`.github/workflows/ci.yml`)
 
 A more comprehensive workflow that:
+
 1. Tests on multiple operating systems (Ubuntu, macOS, Windows)
 2. Tests with multiple Deno versions (v1 and v2)
 3. Caches dependencies for faster builds

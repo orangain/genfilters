@@ -1,14 +1,14 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write
 import {
-  parseYaml,
-  expandGlob,
   basename,
-  join,
-  relative,
   dirname,
-  ensureFileSync,
   ensureDirSync,
+  ensureFileSync,
   existsSync,
+  expandGlob,
+  join,
+  parseYaml,
+  relative,
 } from "./deps.ts";
 
 // Configuration interface
@@ -28,8 +28,9 @@ const DEFAULT_CONFIG_FILE = "genfilters.yaml";
 async function main() {
   try {
     // Get config file path from command line args or use default
-    const configPath =
-      Deno.args.length > 0 ? Deno.args[0] : DEFAULT_CONFIG_FILE;
+    const configPath = Deno.args.length > 0
+      ? Deno.args[0]
+      : DEFAULT_CONFIG_FILE;
 
     console.log(`Using config file: ${configPath}`);
 
@@ -39,7 +40,7 @@ async function main() {
 
     if (!Array.isArray(parsedConfigs)) {
       throw new Error(
-        "Invalid configuration format. Expected an array of configurations."
+        "Invalid configuration format. Expected an array of configurations.",
       );
     }
 
@@ -48,9 +49,11 @@ async function main() {
     for (const config of parsedConfigs) {
       if (!validateConfig(config)) {
         throw new Error(
-          `Invalid configuration: ${JSON.stringify(
-            config
-          )}. Each configuration must have 'output', 'directory', and 'template' properties.`
+          `Invalid configuration: ${
+            JSON.stringify(
+              config,
+            )
+          }. Each configuration must have 'output', 'directory', and 'template' properties.`,
         );
       }
       configs.push(config);
@@ -98,10 +101,12 @@ async function processConfig(config: FilterConfig): Promise<void> {
   ];
 
   // Find all directories matching the pattern
-  for await (const entry of expandGlob(config.directory, {
-    includeDirs: true,
-    globstar: true,
-  })) {
+  for await (
+    const entry of expandGlob(config.directory, {
+      includeDirs: true,
+      globstar: true,
+    })
+  ) {
     // Skip non-directory entries
     if (!entry.isDirectory) {
       continue;
@@ -126,7 +131,7 @@ async function processConfig(config: FilterConfig): Promise<void> {
     console.log(`Generated ${config.output} with ${results.length} entries`);
   } else {
     console.log(
-      `No matching directories found for pattern: ${config.directory}`
+      `No matching directories found for pattern: ${config.directory}`,
     );
   }
 }
@@ -136,7 +141,7 @@ async function processConfig(config: FilterConfig): Promise<void> {
  */
 function processDirectory(
   dirPath: string,
-  config: FilterConfig
+  config: FilterConfig,
 ): string | null {
   const dirRelativePath = relative(Deno.cwd(), dirPath);
 
@@ -161,7 +166,7 @@ function processDirectory(
 export function applyTemplate(
   template: string,
   dirPath: string,
-  dirName: string
+  dirName: string,
 ): string {
   let result = template;
   result = result.replace(/\{dir\}/g, dirPath);
