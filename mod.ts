@@ -3,7 +3,6 @@ import {
   basename,
   dirname,
   ensureDirSync,
-  ensureFileSync,
   existsSync,
   expandGlob,
   join,
@@ -128,7 +127,6 @@ async function processConfig(config: FilterConfig): Promise<void> {
     ensureDirSync(dirname(config.output));
 
     // Write the output file
-    ensureFileSync(config.output);
     await Deno.writeTextFile(config.output, outputContent);
 
     console.log(`Generated ${config.output} with ${results.length} entries`);
