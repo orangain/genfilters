@@ -171,10 +171,9 @@ export function applyTemplate(
   dirPath: string,
   dirName: string,
 ): string {
-  let result = template;
-  result = result.replace(/\{dir\}/g, dirPath.replaceAll("\\", "/")); // Normalize path separators for cross-platform reproducibility
-  result = result.replace(/\{dirname\}/g, dirName);
-  return result;
+  return template
+    .replaceAll("{dir}", dirPath.replaceAll("\\", "/")) // Normalize path separators for cross-platform reproducibility
+    .replaceAll("{dirname}", dirName);
 }
 
 // Run the main function
