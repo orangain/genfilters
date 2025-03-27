@@ -4,7 +4,7 @@ GenFilters is a Deno command-line tool that generates YAML files based on
 directory patterns and templates.
 
 [![Built with Deno](https://img.shields.io/badge/built%20with-deno-brightgreen.svg)](https://deno.land/)
-[![CI](https://github.com/username/genfilters/actions/workflows/ci.yml/badge.svg)](https://github.com/username/genfilters/actions/workflows/ci.yml)
+[![CI](https://github.com/orangain/genfilters/actions/workflows/ci.yml/badge.svg)](https://github.com/orangain/genfilters/actions/workflows/ci.yml)
 
 ## Features
 
