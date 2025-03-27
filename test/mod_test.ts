@@ -81,41 +81,55 @@ Deno.test({
         "deploy.yaml should be created"
       );
 
-      // Read and verify content of test_kotlin.yaml
+      // Read content of test_kotlin.yaml
       const testKotlinContent = Deno.readTextFileSync(
         "test/output/test_kotlin.yaml"
       );
+      console.log("Actual test_kotlin.yaml content:");
+      console.log(testKotlinContent);
 
-      // Check for expected entries
-      const expectedDirs = [
-        "test/fixtures",
-        "test/fixtures/services/api",
-        "test/fixtures/tools",
-      ];
+      // Define expected content for test_kotlin.yaml
+      const expectedTestKotlinContent = `test/fixtures:
+  - test/fixtures/**
+  - .github/workflows/test_kotlin.yml
 
-      for (const dir of expectedDirs) {
-        const expectedEntry = `${dir}:\n  - ${dir}/**\n  - .github/workflows/test_kotlin.yml`;
-        assertEquals(
-          testKotlinContent.includes(expectedEntry),
-          true,
-          `test_kotlin.yaml should contain entry for ${dir}`
-        );
-      }
+test/fixtures/services/api:
+  - test/fixtures/services/api/**
+  - .github/workflows/test_kotlin.yml
 
-      // Read and verify content of deploy.yaml
+test/fixtures/tools:
+  - test/fixtures/tools/**
+  - .github/workflows/test_kotlin.yml
+`;
+
+      // Compare the entire file content
+      assertEquals(
+        testKotlinContent,
+        expectedTestKotlinContent,
+        "test_kotlin.yaml content should match expected content"
+      );
+
+      // Read content of deploy.yaml
       const deployContent = Deno.readTextFileSync("test/output/deploy.yaml");
+      console.log("Actual deploy.yaml content:");
+      console.log(deployContent);
 
-      // Check for expected entries
-      const expectedServices = ["api", "web"];
+      // Define expected content for deploy.yaml
+      const expectedDeployContent = `api:
+  - test/fixtures/services/api/**
+  - .github/workflows/deploy.yml
 
-      for (const service of expectedServices) {
-        const expectedEntry = `${service}:\n  - test/fixtures/services/${service}/**\n  - .github/workflows/deploy.yml`;
-        assertEquals(
-          deployContent.includes(expectedEntry),
-          true,
-          `deploy.yaml should contain entry for ${service}`
-        );
-      }
+web:
+  - test/fixtures/services/web/**
+  - .github/workflows/deploy.yml
+`;
+
+      // Compare the entire file content
+      assertEquals(
+        deployContent,
+        expectedDeployContent,
+        "deploy.yaml content should match expected content"
+      );
     } finally {
       // Clean up test output files
       cleanupOutputFiles();
