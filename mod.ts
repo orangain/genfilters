@@ -71,30 +71,14 @@ async function processConfig(config: FilterConfig): Promise<void> {
     includeDirs: true,
     globstar: true,
   })) {
+    // Skip non-directory entries
     if (!entry.isDirectory) {
       continue;
     }
-
-    const dirPath = entry.path;
-    const dirRelativePath = relative(Deno.cwd(), dirPath);
-
-    // Check if match-if-exists file exists if specified
-    if (config["match-if-exists"]) {
-      const filePath = join(dirPath, config["match-if-exists"]);
-      if (!existsSync(filePath)) {
-        continue;
-      }
+    const result = processDirectory(entry.path, config);
+    if (result) {
+      results.push(result);
     }
-
-    // Get the directory name (basename)
-    const dirName = basename(dirPath);
-
-    // Apply template
-    let result = config.template;
-    result = result.replace(/\{dir\}/g, dirRelativePath);
-    result = result.replace(/\{dirname\}/g, dirName);
-
-    results.push(result);
   }
 
   // If we have results, write them to the output file
@@ -114,6 +98,34 @@ async function processConfig(config: FilterConfig): Promise<void> {
       `No matching directories found for pattern: ${config.directory}`
     );
   }
+}
+
+/**
+ * Process a single directory for a given configuration
+ */
+function processDirectory(
+  dirPath: string,
+  config: FilterConfig
+): string | null {
+  const dirRelativePath = relative(Deno.cwd(), dirPath);
+
+  // Check if match-if-exists file exists if specified
+  if (config["match-if-exists"]) {
+    const filePath = join(dirPath, config["match-if-exists"]);
+    if (!existsSync(filePath)) {
+      return null;
+    }
+  }
+
+  // Get the directory name (basename)
+  const dirName = basename(dirPath);
+
+  // Apply template
+  let result = config.template;
+  result = result.replace(/\{dir\}/g, dirRelativePath);
+  result = result.replace(/\{dirname\}/g, dirName);
+
+  return result;
 }
 
 // Run the main function
