@@ -3,6 +3,7 @@
 GenFilters is a Deno command-line tool that generates YAML files based on directory patterns and templates.
 
 [![Built with Deno](https://img.shields.io/badge/built%20with-deno-brightgreen.svg)](https://deno.land/)
+[![CI](https://github.com/username/genfilters/actions/workflows/ci.yml/badge.svg)](https://github.com/username/genfilters/actions/workflows/ci.yml)
 
 ## Features
 
@@ -13,15 +14,37 @@ GenFilters is a Deno command-line tool that generates YAML files based on direct
 
 ## Installation
 
-No installation is required. You can run the script directly with Deno:
+### Run Directly
+
+You can run the script directly with Deno:
 
 ```bash
-deno run --allow-read --allow-write mod.ts [config-file]
+deno run --allow-read --allow-write https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts [config-file]
 ```
 
-Or make the script executable:
+### Install Globally
+
+You can install the tool globally using Deno:
 
 ```bash
+deno install --allow-read --allow-write -n genfilters https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts
+```
+
+Then use it from anywhere:
+
+```bash
+genfilters [config-file]
+```
+
+### Local Development
+
+Clone the repository and run:
+
+```bash
+# Run directly
+deno run --allow-read --allow-write mod.ts [config-file]
+
+# Or make executable
 chmod +x mod.ts
 ./mod.ts [config-file]
 ```
@@ -150,6 +173,17 @@ deno test --allow-read --allow-write --allow-run test/mod_test.ts
 - `test/mod_test.ts`: Integration tests for the command
 - `test/unit_test.ts`: Unit tests for individual functions
 - `test/output/`: Generated during tests (cleaned up automatically)
+
+### Continuous Integration
+
+This project uses GitHub Actions for continuous integration. Two workflows are provided:
+
+#### CI Workflow (`.github/workflows/ci.yml`)
+
+A more comprehensive workflow that:
+1. Tests on multiple operating systems (Ubuntu, macOS, Windows)
+2. Tests with multiple Deno versions (v1 and v2)
+3. Caches dependencies for faster builds
 
 ## License
 
