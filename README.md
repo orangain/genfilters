@@ -45,7 +45,7 @@ genfilters [config-file]
 
 ## Example
 
-Given this configuration file (default: `genfilters.yaml`):
+Create a configuration file named `genfilters.yaml` in your project:
 
 ```yaml
 - output: .github/filters/test.yaml
@@ -64,7 +64,7 @@ Given this configuration file (default: `genfilters.yaml`):
       - .github/workflows/deploy.yml
 ```
 
-And this directory structure:
+Given this directory structure:
 
 ```
 project/
@@ -106,8 +106,8 @@ web:
 
 ## Configuration Format
 
-The configuration file should contain an array of filter definitions in YAML
-format:
+The configuration file (default: `genfilters.yaml`) should contain an array of
+filter definitions in YAML format:
 
 ### Configuration Options
 
