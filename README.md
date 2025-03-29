@@ -17,9 +17,13 @@ projects.
 
 ## Installation
 
+### Prerequisites
+
+- [Deno](https://deno.land/) v2 or later
+
 ### Run Directly
 
-You can run the script directly with Deno v2 or later:
+You can run the script directly with Deno without installing it:
 
 ```bash
 deno run --allow-read --allow-write https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts [config-file]
@@ -39,77 +43,18 @@ Then use it from anywhere:
 genfilters [config-file]
 ```
 
-### Local Development
-
-Clone the repository and run:
-
-```bash
-# Run directly
-deno run --allow-read --allow-write mod.ts [config-file]
-```
-
-## Usage
-
-Create a configuration file (default: `genfilters.yaml`) with your filter
-definitions, then run:
-
-```bash
-# Using default config file (genfilters.yaml)
-deno run --allow-read --allow-write mod.ts
-
-# Using a custom config file
-deno run --allow-read --allow-write mod.ts custom-config.yaml
-```
-
-## Configuration Format
-
-The configuration file should contain an array of filter definitions in YAML
-format:
-
-```yaml
-- output: path/to/output.yaml
-  directory: "glob/pattern/**"
-  match-if-exists: optional-file-to-check.txt
-  template: |
-    $DIR_NAME:
-      - $DIR/**
-      - other/path/to/include.yml
-
-- output: another/output.yaml
-  directory: "another/pattern/*"
-  template: |
-    $DIR:
-      - $DIR/**
-```
-
-### Configuration Options
-
-- `output`: Path where the generated YAML will be written
-- `directory`: Glob pattern to match directories
-- `match-if-exists` (optional): Only match directories containing this file
-- `template`: Template string to apply for each matching directory
-
-### Template Variables
-
-- `$DIR`: Relative path to the matched directory
-- `$DIR_NAME`: Base name of the matched directory (just the directory name
-  itself)
-
-Curly braces (`{}`) can be used in the template to clarify the variable such as
-`${DIR}` or `${DIR_NAME}`.
-
 ## Example
 
-Given this configuration:
+Given this configuration file (default: `genfilters.yaml`):
 
 ```yaml
-- output: .github/filters/test_kotlin.yaml
+- output: .github/filters/test.yaml
   directory: "**"
   match-if-exists: Makefile
   template: |
     $DIR:
       - $DIR/**
-      - .github/workflows/test_kotlin.yml
+      - .github/workflows/test.yml
 
 - output: .github/filters/deploy.yaml
   directory: "services/*"
@@ -132,20 +77,20 @@ project/
 └── Makefile
 ```
 
-The command will generate:
+The command will generate the following files:
 
-1. `.github/filters/test_kotlin.yaml`:
+1. `.github/filters/test.yaml`:
 
 ```yaml
 project:
   - project/**
-  - .github/workflows/test_kotlin.yml
+  - .github/workflows/test.yml
 services/api:
   - services/api/**
-  - .github/workflows/test_kotlin.yml
+  - .github/workflows/test.yml
 tools:
   - tools/**
-  - .github/workflows/test_kotlin.yml
+  - .github/workflows/test.yml
 ```
 
 2. `.github/filters/deploy.yaml`:
@@ -159,7 +104,39 @@ web:
   - .github/workflows/deploy.yml
 ```
 
-## Testing
+## Configuration Format
+
+The configuration file should contain an array of filter definitions in YAML
+format:
+
+### Configuration Options
+
+- `output`: Path where the generated YAML will be written.
+- `directory`: Glob pattern(s) to match directories. If multiple patterns are
+  provided in an array, they will be combined with a logical OR.
+- `match-if-exists` (optional): Only match directories containing this file.
+- `template`: Template string to apply for each matching directory. The
+  variables mentioned below can be used in the template.
+
+### Template Variables
+
+- `$DIR`: Relative path to the matched directory
+- `$DIR_NAME`: Base name of the matched directory (just the directory name
+  itself)
+
+Curly braces (`{}`) can be used in the template to clarify the variable such as
+`${DIR}` or `${DIR_NAME}`.
+
+## Development
+
+Clone the repository and run:
+
+```bash
+# Run directly
+deno run --allow-read --allow-write mod.ts [config-file]
+```
+
+### Testing
 
 The project includes tests to verify functionality. Run the tests with:
 
@@ -174,7 +151,7 @@ deno test --allow-read --allow-write test/unit_test.ts
 deno test --allow-read --allow-write --allow-run test/mod_test.ts
 ```
 
-### Test Structure
+#### Test Structure
 
 - `test/fixtures/`: Contains test directory structure and files
 - `test/mod_test.ts`: Integration tests for the command
