@@ -88,7 +88,7 @@ Deno.test({
 
     assertEquals(parseConfigFile(validConfig), [{
       output: "output.yaml",
-      directory: "**",
+      directory: ["**"],
       template: "{dir}: test",
     }]);
     assertThrows(() => parseConfigFile(invalidConfig1));

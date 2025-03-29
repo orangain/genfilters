@@ -59,10 +59,13 @@ async function processConfig(config: FilterConfig): Promise<void> {
 
   // Find all directories matching the pattern
   for await (
-    const entry of expandGlob(config.directory, {
-      includeDirs: true,
-      globstar: true,
-    })
+    const entry of expandGlob(
+      config.directory[0], // TODO: support multiple directories
+      {
+        includeDirs: true,
+        globstar: true,
+      },
+    )
   ) {
     // Skip non-directory entries
     if (!entry.isDirectory) {
