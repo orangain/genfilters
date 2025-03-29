@@ -29,14 +29,10 @@ async function main() {
     const yamlContent = await Deno.readTextFile(configPath);
     const configs = parseConfigFile(yamlContent);
 
-    console.log(`Found ${configs.length} configurations to process`);
-
     // Process each configuration
     for (const config of configs) {
       await processConfig(config);
     }
-
-    console.log("All configurations processed successfully");
   } catch (error) {
     const message = error instanceof Error
       ? error.message
@@ -50,8 +46,6 @@ async function main() {
  * Processes a single configuration entry
  */
 async function processConfig(config: FilterConfig): Promise<void> {
-  console.log(`Processing config for output: ${config.output}`);
-
   // Create an array to store the processed template results
   const results: string[] = [];
 
