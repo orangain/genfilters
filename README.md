@@ -17,7 +17,7 @@ directory patterns and templates.
 
 ### Run Directly
 
-You can run the script directly with Deno:
+You can run the script directly with Deno v2 or later:
 
 ```bash
 deno run --allow-read --allow-write https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts [config-file]
@@ -25,7 +25,7 @@ deno run --allow-read --allow-write https://github.com/orangain/genfilters/raw/r
 
 ### Install Globally
 
-You can install the tool globally using Deno:
+Alternatively, you can install the tool globally:
 
 ```bash
 deno install --allow-read --allow-write -n genfilters https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts
@@ -44,10 +44,6 @@ Clone the repository and run:
 ```bash
 # Run directly
 deno run --allow-read --allow-write mod.ts [config-file]
-
-# Or make executable
-chmod +x mod.ts
-./mod.ts [config-file]
 ```
 
 ## Usage
