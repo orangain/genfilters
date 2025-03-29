@@ -116,8 +116,17 @@ export function applyTemplate(
     template += "\n"; // Ensure the template ends with a newline
   }
   return template
-    .replaceAll("{dir}", dirPath.replaceAll("\\", "/")) // Normalize path separators for cross-platform reproducibility
-    .replaceAll("{dirname}", dirName);
+    .replaceAll(/\$(?:(\w+)|\{(\w+)\})/g, (match, bareName, enclosedName) => {
+      const name = bareName ?? enclosedName;
+      switch (name) {
+        case "DIR":
+          return dirPath.replaceAll("\\", "/"); // Normalize path separators for cross-platform consistency
+        case "DIR_NAME":
+          return dirName;
+        default:
+          return match; // Keep the original match if no replacement is found
+      }
+    });
 }
 
 // Run the main function

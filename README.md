@@ -73,15 +73,15 @@ format:
   directory: "glob/pattern/**"
   match-if-exists: optional-file-to-check.txt
   template: |
-    {dirname}:
-      - {dir}/**
+    $DIR_NAME:
+      - $DIR/**
       - other/path/to/include.yml
 
 - output: another/output.yaml
   directory: "another/pattern/*"
   template: |
-    {dir}:
-      - {dir}/**
+    $DIR:
+      - $DIR/**
 ```
 
 ### Configuration Options
@@ -93,8 +93,8 @@ format:
 
 ### Template Variables
 
-- `{dir}`: Relative path to the matched directory
-- `{dirname}`: Base name of the matched directory (just the directory name
+- `$DIR`: Relative path to the matched directory
+- `$DIR_NAME`: Base name of the matched directory (just the directory name
   itself)
 
 ## Example
@@ -106,15 +106,15 @@ Given this configuration:
   directory: "**"
   match-if-exists: Makefile
   template: |
-    {dir}:
-      - {dir}/**
+    $DIR:
+      - $DIR/**
       - .github/workflows/test_kotlin.yml
 
 - output: .github/filters/deploy.yaml
   directory: "services/*"
   template: |
-    {dirname}:
-      - {dir}/**
+    $DIR_NAME:
+      - $DIR/**
       - .github/workflows/deploy.yml
 ```
 

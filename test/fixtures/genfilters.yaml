@@ -2,19 +2,19 @@
   directory: "test/fixtures/**"
   match-if-exists: Makefile
   template: |
-    {dir}:
-      - {dir}/**
+    $DIR:
+      - $DIR/**
 
 - output: test/output/dirname.yaml
   directory: "test/fixtures/services/*"
   template: |
-    {dirname}:
-      - {dir}/**
+    $DIR_NAME:
+      - $DIR/**
 
 - output: test/output/multi-directories.yaml
   directory:
     - "test/fixtures/tools/**"
     - "test/fixtures/services/*"
   template: |
-    {dir}:
-      - {dir}/**
+    $DIR:
+      - $DIR/**

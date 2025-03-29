@@ -10,12 +10,13 @@ import { assertThrows } from "https://deno.land/std@0.208.0/assert/assert_throws
 Deno.test({
   name: "Template Substitution",
   fn() {
-    const template = "{dir}:\n  - {dir}/**\n  - {dirname}/workflow.yml";
+    const template =
+      "$DIR:\n  - ${DIR}/**\n  - $DIR_NAME/workflow.yml # $DIR2\n";
     const dir = "services/api";
     const dirname = "api";
 
     const expected =
-      "services/api:\n  - services/api/**\n  - api/workflow.yml\n";
+      "services/api:\n  - services/api/**\n  - api/workflow.yml # $DIR2\n";
 
     // Test the applyTemplate function from mod.ts
     const result = applyTemplate(template, dir, dirname);
