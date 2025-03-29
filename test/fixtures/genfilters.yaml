@@ -1,14 +1,12 @@
-- output: test/output/test_kotlin.yaml
+- output: test/output/match-if-exists.yaml
   directory: "test/fixtures/**"
   match-if-exists: Makefile
   template: |
     {dir}:
       - {dir}/**
-      - .github/workflows/test_kotlin.yml
 
-- output: test/output/deploy.yaml
+- output: test/output/dirname.yaml
   directory: "test/fixtures/services/*"
   template: |
     {dirname}:
       - {dir}/**
-      - .github/workflows/deploy.yml
