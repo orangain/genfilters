@@ -3,7 +3,8 @@ import { ensureDirSync } from "https://deno.land/std@0.208.0/fs/ensure_dir.ts";
 import { existsSync } from "https://deno.land/std@0.208.0/fs/exists.ts";
 import { join } from "../deps.ts";
 import { applyTemplate } from "../mod.ts";
-import { FilterConfig, validateConfig } from "../config.ts";
+import { parseConfigFile } from "../config.ts";
+import { assertThrows } from "https://deno.land/std@0.208.0/assert/assert_throws.ts";
 
 // Test template substitution
 Deno.test({
@@ -61,34 +62,37 @@ Deno.test({
   name: "Configuration Validation",
   fn() {
     // Valid configuration
-    const validConfig: FilterConfig = {
-      output: "output.yaml",
-      directory: "**",
-      template: "{dir}: test",
-    };
+    const validConfig = `
+- output: "output.yaml"
+  directory: "**"
+  template: "{dir}: test"
+`;
 
     // Missing output
-    const invalidConfig1 = {
-      directory: "**",
-      template: "{dir}: test",
-    };
+    const invalidConfig1 = `
+- directory: "**"
+  template: "{dir}: test"
+`;
 
     // Missing directory
-    const invalidConfig2 = {
-      output: "output.yaml",
-      template: "{dir}: test",
-    };
+    const invalidConfig2 = `
+- output: "output.yaml"
+  template: "{dir}: test"
+`;
 
     // Missing template
-    const invalidConfig3 = {
+    const invalidConfig3 = `
+- output: "output.yaml"
+  directory: "**"
+`;
+
+    assertEquals(parseConfigFile(validConfig), [{
       output: "output.yaml",
       directory: "**",
-    };
-
-    // Test the validateConfig function from mod.ts
-    assertEquals(validateConfig(validConfig), true);
-    assertEquals(validateConfig(invalidConfig1), false);
-    assertEquals(validateConfig(invalidConfig2), false);
-    assertEquals(validateConfig(invalidConfig3), false);
+      template: "{dir}: test",
+    }]);
+    assertThrows(() => parseConfigFile(invalidConfig1));
+    assertThrows(() => parseConfigFile(invalidConfig2));
+    assertThrows(() => parseConfigFile(invalidConfig3));
   },
 });
