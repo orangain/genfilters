@@ -1,7 +1,9 @@
 # GenFilters
 
 GenFilters is a Deno command-line tool that generates YAML files based on
-directory patterns and templates.
+directory patterns and templates. It is useful for creating filter files for
+[dorny/paths-filter](https://github.com/dorny/paths-filter) action in monorepo
+projects.
 
 [![Built with Deno](https://img.shields.io/badge/built%20with-deno-brightgreen.svg)](https://deno.land/)
 [![CI](https://github.com/orangain/genfilters/actions/workflows/ci.yml/badge.svg)](https://github.com/orangain/genfilters/actions/workflows/ci.yml)
