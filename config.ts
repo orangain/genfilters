@@ -1,4 +1,4 @@
-import { parse as parseYaml } from "std/yaml/mod.ts";
+import { parse } from "std/yaml/mod.ts";
 import { z } from "zod";
 
 const configSchema = z.object({
@@ -18,7 +18,7 @@ export type FilterConfig = {
 };
 
 export function parseConfigFile(yamlContent: string): FilterConfig[] {
-  return configFileSchema.parse(parseYaml(yamlContent)).map((config) => {
+  return configFileSchema.parse(parse(yamlContent)).map((config) => {
     const directory = Array.isArray(config.directory)
       ? config.directory
       : [config.directory];
