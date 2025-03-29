@@ -1,7 +1,6 @@
-import { assertEquals, assertExists } from "std/assert/mod.ts";
-import { join } from "std/path/mod.ts";
-import { ensureDirSync } from "std/fs/ensure_dir.ts";
-import { existsSync } from "std/fs/exists.ts";
+import { assertEquals, assertExists } from "@std/assert";
+import { join } from "@std/path";
+import { ensureDirSync, existsSync } from "@std/fs";
 
 // Helper function to run the command
 async function runCommand(configPath: string): Promise<string> {

@@ -1,5 +1,5 @@
-import { parse } from "std/yaml/mod.ts";
-import { z } from "zod";
+import { parse } from "@std/yaml";
+import { z } from "npm:zod";
 
 const configSchema = z.object({
   output: z.string(),
