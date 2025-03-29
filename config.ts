@@ -1,5 +1,5 @@
-import { parseYaml } from "./deps.ts";
-import { z } from "./deps.ts";
+import { parse as parseYaml } from "std/yaml/mod.ts";
+import { z } from "zod";
 
 const configSchema = z.object({
   output: z.string(),

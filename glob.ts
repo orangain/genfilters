@@ -1,4 +1,4 @@
-import { expandGlob } from "./deps.ts";
+import { expandGlob } from "std/fs/expand_glob.ts";
 
 export async function globDirectories(
   patterns: string[],
