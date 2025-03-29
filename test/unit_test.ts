@@ -2,7 +2,8 @@ import { assertEquals } from "https://deno.land/std@0.208.0/assert/mod.ts";
 import { ensureDirSync } from "https://deno.land/std@0.208.0/fs/ensure_dir.ts";
 import { existsSync } from "https://deno.land/std@0.208.0/fs/exists.ts";
 import { join } from "../deps.ts";
-import { applyTemplate, FilterConfig, validateConfig } from "../mod.ts";
+import { applyTemplate } from "../mod.ts";
+import { FilterConfig, validateConfig } from "../config.ts";
 
 // Test template substitution
 Deno.test({

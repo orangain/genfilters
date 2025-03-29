@@ -1,4 +1,5 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write
+import { FilterConfig, parseConfigFile } from "./config.ts";
 import {
   basename,
   dirname,
@@ -6,17 +7,8 @@ import {
   existsSync,
   expandGlob,
   join,
-  parseYaml,
   relative,
 } from "./deps.ts";
-
-// Configuration interface
-export interface FilterConfig {
-  output: string;
-  directory: string;
-  "match-if-exists"?: string;
-  template: string;
-}
 
 // Default config file name
 const DEFAULT_CONFIG_FILE = "genfilters.yaml";
@@ -35,28 +27,7 @@ async function main() {
 
     // Read and parse the YAML config file
     const yamlContent = await Deno.readTextFile(configPath);
-    const parsedConfigs = parseYaml(yamlContent);
-
-    if (!Array.isArray(parsedConfigs)) {
-      throw new Error(
-        "Invalid configuration format. Expected an array of configurations.",
-      );
-    }
-
-    // Validate each configuration
-    const configs: FilterConfig[] = [];
-    for (const config of parsedConfigs) {
-      if (!validateConfig(config)) {
-        throw new Error(
-          `Invalid configuration: ${
-            JSON.stringify(
-              config,
-            )
-          }. Each configuration must have 'output', 'directory', and 'template' properties.`,
-        );
-      }
-      configs.push(config);
-    }
+    const configs = parseConfigFile(yamlContent);
 
     console.log(`Found ${configs.length} configurations to process`);
 
@@ -73,22 +44,6 @@ async function main() {
     console.error(`Error: ${message}`);
     Deno.exit(1);
   }
-}
-
-/**
- * Validates a configuration object
- */
-export function validateConfig(config: unknown): config is FilterConfig {
-  return (
-    typeof config === "object" &&
-    config !== null &&
-    "output" in config &&
-    typeof config.output === "string" &&
-    "directory" in config &&
-    typeof config.directory === "string" &&
-    "template" in config &&
-    typeof config.template === "string"
-  );
 }
 
 /**
