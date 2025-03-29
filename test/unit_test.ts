@@ -14,7 +14,8 @@ Deno.test({
     const dir = "services/api";
     const dirname = "api";
 
-    const expected = "services/api:\n  - services/api/**\n  - api/workflow.yml";
+    const expected =
+      "services/api:\n  - services/api/**\n  - api/workflow.yml\n";
 
     // Test the applyTemplate function from mod.ts
     const result = applyTemplate(template, dir, dirname);
