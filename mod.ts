@@ -5,7 +5,6 @@ import {
   dirname,
   ensureDirSync,
   existsSync,
-  expandGlob,
   join,
   relative,
 } from "./deps.ts";
