@@ -23,5 +23,5 @@ export async function globDirectories(
     }
   }
 
-  return results;
+  return results.toSorted();
 }

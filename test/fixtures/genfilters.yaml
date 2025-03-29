@@ -13,8 +13,8 @@
 
 - output: test/output/multi-directories.yaml
   directory:
-    - "test/fixtures/services/*"
     - "test/fixtures/tools/**"
+    - "test/fixtures/services/*"
   template: |
     {dir}:
       - {dir}/**
