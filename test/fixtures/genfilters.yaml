@@ -10,3 +10,11 @@
   template: |
     {dirname}:
       - {dir}/**
+
+- output: test/output/multi-directories.yaml
+  directory:
+    - "test/fixtures/services/*"
+    - "test/fixtures/tools/**"
+  template: |
+    {dir}:
+      - {dir}/**

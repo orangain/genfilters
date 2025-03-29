@@ -59,7 +59,7 @@ async function processConfig(config: FilterConfig): Promise<void> {
   ];
 
   // Find all directories matching the pattern
-  const directories = await globDirectories(config.directory[0]); // TODO: support multiple directories
+  const directories = await globDirectories(config.directory);
   for (
     const directory of directories
   ) {

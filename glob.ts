@@ -1,21 +1,27 @@
 import { expandGlob } from "./deps.ts";
 
 export async function globDirectories(
-  pattern: string,
+  patterns: string[],
 ): Promise<string[]> {
+  const seen = new Set<string>();
   const results: string[] = [];
-  for await (
-    const entry of expandGlob(pattern, {
-      includeDirs: true,
-      globstar: true,
-    })
-  ) {
-    // Skip non-directory entries
-    if (!entry.isDirectory) {
-      continue;
+  for (const pattern of patterns) {
+    for await (
+      const entry of expandGlob(pattern, {
+        includeDirs: true,
+        globstar: true,
+      })
+    ) {
+      if (!entry.isDirectory) {
+        continue;
+      }
+      if (seen.has(entry.path)) {
+        continue;
+      }
+      seen.add(entry.path);
+      results.push(entry.path);
     }
-
-    results.push(entry.path);
   }
+
   return results;
 }
