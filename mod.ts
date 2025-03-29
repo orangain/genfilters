@@ -9,6 +9,7 @@ import {
   join,
   relative,
 } from "./deps.ts";
+import { globDirectories } from "./glob.ts";
 
 // Default config file name
 const DEFAULT_CONFIG_FILE = "genfilters.yaml";
@@ -58,20 +59,11 @@ async function processConfig(config: FilterConfig): Promise<void> {
   ];
 
   // Find all directories matching the pattern
-  for await (
-    const entry of expandGlob(
-      config.directory[0], // TODO: support multiple directories
-      {
-        includeDirs: true,
-        globstar: true,
-      },
-    )
+  const directories = await globDirectories(config.directory[0]); // TODO: support multiple directories
+  for (
+    const directory of directories
   ) {
-    // Skip non-directory entries
-    if (!entry.isDirectory) {
-      continue;
-    }
-    const result = processDirectory(entry.path, config);
+    const result = processDirectory(directory, config);
     if (result) {
       results.push(result);
     }
