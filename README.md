@@ -97,6 +97,9 @@ format:
 - `$DIR_NAME`: Base name of the matched directory (just the directory name
   itself)
 
+Curly braces (`{}`) can be used in the template to clarify the variable such as
+`${DIR}` or `${DIR_NAME}`.
+
 ## Example
 
 Given this configuration:
