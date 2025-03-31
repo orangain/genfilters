@@ -155,8 +155,8 @@ deno test --allow-read --allow-write --allow-run test/mod_test.ts
 
 - `test/fixtures/`: Contains test directory structure and files
 - `test/mod_test.ts`: Integration tests for the command
-- `test/unit_test.ts`: Unit tests for individual functions
 - `test/output/`: Generated during tests (cleaned up automatically)
+- `*.test.ts`: Unit tests for individual functions
 
 ### Continuous Integration
 
