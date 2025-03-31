@@ -34,7 +34,7 @@ deno run --allow-read --allow-write https://github.com/orangain/genfilters/raw/r
 Alternatively, you can install the tool globally:
 
 ```bash
-deno install --allow-read --allow-write -n genfilters https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts
+deno install --global --allow-read --allow-write -n genfilters https://github.com/orangain/genfilters/raw/refs/heads/main/mod.ts
 ```
 
 Then use it from anywhere:
