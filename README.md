@@ -19,7 +19,7 @@ projects.
 
 ### Prerequisites
 
-- [Deno](https://deno.land/) v2 or later
+- [Deno](https://deno.land/)
 
 ### Run Directly
 
