@@ -1,6 +1,6 @@
 import { assertEquals, assertExists } from "jsr:@std/assert@^1.0.12";
-import { join } from "jsr:@std/path@^1.0.8";
 import { ensureDirSync, existsSync } from "jsr:@std/fs@^1.0.15";
+import { join } from "jsr:@std/path@^1.0.8";
 
 // Helper function to run the command
 async function runCommand(configPath: string): Promise<string> {

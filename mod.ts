@@ -1,6 +1,6 @@
 #!/usr/bin/env -S deno run --allow-read --allow-write
-import { basename, dirname, join, relative } from "jsr:@std/path@^1.0.8";
 import { ensureDirSync, existsSync } from "jsr:@std/fs@^1.0.15";
+import { basename, dirname, join, relative } from "jsr:@std/path@^1.0.8";
 import { FilterConfig, parseConfigFile } from "./config.ts";
 import { globDirectories } from "./glob.ts";
 import { applyTemplate } from "./template.ts";
