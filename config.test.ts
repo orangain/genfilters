@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "jsr:@std/assert@^1.0.12";
 import { parseConfigFile } from "./config.ts";
 
 // Test configuration validation

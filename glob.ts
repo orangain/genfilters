@@ -1,4 +1,4 @@
-import { expandGlob } from "@std/fs";
+import { expandGlob } from "jsr:@std/fs@^1.0.15";
 
 export async function globDirectories(
   patterns: string[],

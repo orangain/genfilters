@@ -1,5 +1,5 @@
-import { parse } from "@std/yaml";
-import { z } from "npm:zod";
+import { parse } from "jsr:@std/yaml@^1.0.5";
+import { z } from "https://deno.land/x/zod@v3.24.2/mod.ts";
 
 const configSchema = z.object({
   output: z.string(),

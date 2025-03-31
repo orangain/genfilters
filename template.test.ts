@@ -1,4 +1,4 @@
-import { assertEquals } from "@std/assert";
+import { assertEquals } from "jsr:@std/assert@^1.0.12";
 import { applyTemplate } from "./template.ts";
 
 // Test template substitution
